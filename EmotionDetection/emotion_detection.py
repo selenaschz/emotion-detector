@@ -1,3 +1,6 @@
+"""
+Module for analyzing emotions using the Watson NLP EmotionPredict API
+"""
 import json
 import requests
 
@@ -15,12 +18,11 @@ def emotion_detector(text_to_analyze):
 
     response = requests.post(url, json = myobj, headers=headers, timeout=10)
 
-    if response.status_code == 400 or response.status_code == 500:
+    if response.status_code in (400, 500):
         anger = disgust = fear = joy = sadness = dominant_emotion = None
     else:
         formatted_response = json.loads(response.text)
         emotions = formatted_response["emotionPredictions"][0]["emotion"]
-        
         anger = emotions["anger"]
         disgust = emotions["disgust"]
         fear = emotions["fear"]
